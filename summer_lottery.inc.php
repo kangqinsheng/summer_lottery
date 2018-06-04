@@ -8,13 +8,18 @@
 
 /**********微信openid***************/
 require_once "class/poster.php";
+require_once "source/plugin/votex3/include/jssdk.php";
 //定义appid secret url
 $appid="wxc9e02b188ab1ea58";
 $secret="94022c5a73399e7c285878f5c6a2acd3";
 $url="http://xjz.cqdsrb.com.cn";
-
+//微信自定义分享
+$jssdk = new JSSDK($appid, $secret);
+$signPackage = $jssdk->GetSignPackage();
+//发起分享来源
+$share_id = $_GET['share_id']?$_GET['share_id']:0;
+//用户openid及基本资料
 $code = $_GET['code'];//获取code
-$share_id = $_GET['share_id']?$_GET['share_id']:0;//发起分享来源
 session_start();
 if($code || $_SESSION['openid']){
     $weixin=file_get_contents("https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$appid."&secret=".$secret."&code=".$code."&grant_type=authorization_code");//通过code换取网页授权access_token
@@ -22,10 +27,6 @@ if($code || $_SESSION['openid']){
     $array = get_object_vars($jsondecode);//转换成数组
     $openid = $array['openid'];//输出openid
     $access_token = $array['access_token'];
-
-    //$poster = new Poster();
-    //$user = $poster->getInfo($access_token,$openid);
-
     if($openid){
         $_SESSION['access_token']=$access_token;
         $_SESSION['openid']=$openid;
