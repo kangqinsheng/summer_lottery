@@ -184,7 +184,7 @@
     //评论删除
     function del(id) {
         if(confirm("确定删除?")){
-            $.post("plugin.php?id=summer_lottery:ajax",{"action":"delete_comment","comment_id":id},function(res){
+            $.post("plugin.php?id=summer_lottery:summer_ajax",{"action":"delete_comment","comment_id":id},function(res){
                 if(res.status==200){
                     alert("删除成功");
                     location.reload();

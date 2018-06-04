@@ -92,3 +92,23 @@ if($action=="delete_comment"){
         echo json_encode(array("status"=>500,"msg"=>"fail delete comment"));
     }
 }
+//上线景点
+if($action == "online_jing"){
+    $data = array("jing_status"=>0);
+    $res = C::t("#summer_lottery#summer_jing")->update_one($jing_id,$data);
+    if($res){
+        echo json_encode(array("status"=>200,"msg"=>$res));
+    }else{
+        echo json_encode(array("status"=>500,"msg"=>"fail online"));
+    }
+}
+//下线景点
+if($action == "under_jing"){
+    $data = array("jing_status"=>1);
+    $res = C::t("#summer_lottery#summer_jing")->update_one($jing_id,$data);
+    if($res){
+        echo json_encode(array("status"=>200,"msg"=>$res));
+    }else{
+        echo json_encode(array("status"=>500,"msg"=>"fail under line"));
+    }
+}

@@ -121,6 +121,7 @@
         <td>景点封面</td>
         <td>景点总赞</td>
         <td>景点虚拟点赞</td>
+        <td>状态（上、下线）</td>
         <td>操作</td>
     </tr>
     <!--{loop $list $val}-->
@@ -129,6 +130,15 @@
         <td><img width="50px" src="source/plugin/summer_lottery/uploads/{$val['jing_img']}.jpg"></td>
         <td>{$val['con_zan']}</td>
         <td>{$val['jing_ext_zan']}</td>
+        <td>
+            <!--{if $val['jing_status']==0}-->
+                <span style="color: green">已上线</span>
+                <a onclick="under($val['id'])" href="javascript:void(0);">下线</a>
+            <!--{else}-->
+                <span style="color: red">已下线</span>
+                <a onclick="online($val['id'])" href="javascript:void(0);">上线</a>
+            <!--{/if}-->
+        </td>
         <td>
             <a href="plugin.php?id=summer_lottery:summer_admin&action=update&jing_id={$val['id']}">编辑</a>
         </td>
@@ -178,6 +188,34 @@ function getContent() {
         $("#form1").submit();
     }
 }
+</script>
+<script type="text/javascript">
+    //下线
+    function under(id) {
+        if(confirm("确定下线?")){
+            $.post("plugin.php?id=summer_lottery:summer_ajax",{"action":"under_jing","jing_id":id},function(res){
+                if(res.status==200){
+                    alert("下线成功");
+                    location.reload();
+                }else {
+                    alert(res.msg);
+                }
+            },"json")
+        }
+    }
+    //上线
+    function online(id) {
+        if(confirm("确定上线?")){
+            $.post("plugin.php?id=summer_lottery:summer_ajax",{"action":"online_jing","jing_id":id},function(res){
+                if(res.status==200){
+                    alert("上线成功");
+                    location.reload();
+                }else {
+                    alert(res.msg);
+                }
+            },"json")
+        }
+    }
 </script>
 <!--图片-->
 <script type="text/javascript">
