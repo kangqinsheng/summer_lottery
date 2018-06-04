@@ -118,7 +118,7 @@
 <h3>修改景点</h3>
 <form id="form1" method="post" action="plugin.php?id=summer_lottery:summer_admin&action=update_jing">
     <!--照片-->
-    <h5 class="mui-content-padded">LOGO:(上传一张图片哟)</h5>
+    <h5 class="mui-content-padded">封面:(上传一张图片哟)</h5>
     <div class="mui-card" style="width: 300px;">
         <div class="mui-input-group" style="padding: 10px;">
             <div id="uploadImgForm">
@@ -129,7 +129,7 @@
                         </ul>
                     </div>
                     <div class="mbupload_bgimg">
-                        <div class="iconSendImg mbupload_addImg" style="background:url(source/plugin/xy_love/template/images/upload_carbg.png) no-repeat 50% 50%;"></div>
+                        <div class="iconSendImg mbupload_addImg" style="background:url(source/plugin/summer_lottery/uploads/{$jing['jing_img']}.jpg) no-repeat 50% 50%;"></div>
                     </div>
                 </div>
             </div>
