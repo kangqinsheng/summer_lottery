@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="GBK">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <script type="text/javascript" src="source/plugin/summer_lottery/template/third-party/jquery.min.js"></script>
+    <title>主页</title>
+</head>
+<body>
+    <!--{loop $list $key $val}-->
+        <div onclick="javascript:location.href='plugin.php?id=summer_lottery&page_to=info&share_id={$share_id}&jing_id={$val['id']}'">
+            <img src="source/plugin/summer_lottery/uploads/{$val['jing_img']}.jpg" width="100%">
+            <div>{$val['jing_name']}</div>
+            <div>排名:
+            <!--{eval echo $key+1}-->
+            </div>
+            <div>赞数:{$val['con_zan']}</div>
+        </div>
+    <!--{/loop}-->
+</body>
+</html>

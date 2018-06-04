@@ -21,7 +21,7 @@ class table_summer_comment extends discuz_table
     }
     //获取景点所有留言
     public function get_list($jing_id){
-        $data = DB::fetch_all("select * from %t WHERE %i order by `comment_time` DESC ",array($this->_table,$jing_id));
+        $data = DB::fetch_all("select * from %t WHERE `jing_id`=%i order by `comment_time` DESC ",array($this->_table,$jing_id));
         return $data;
     }
     //删除一条数据

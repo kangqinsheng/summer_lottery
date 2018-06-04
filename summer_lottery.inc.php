@@ -27,12 +27,27 @@ if($code || $_SESSION['openid']){
     $array = get_object_vars($jsondecode);//转换成数组
     $openid = $array['openid'];//输出openid
     $access_token = $array['access_token'];
+    //查看是否存入数据
+    $res = C::t("#summer_lottery#summer_user")->is_has($openid);
+    if($res==0){
+        //用户数据，插入数据库
+        $poster = new Poster();
+        $user = $poster->getInfo($access_token,$openid);
+        //转码存数据
+        $encode = mb_detect_encoding($user['nickname'],array("ASCII","UTF-8","GB2312","GBK","BIG5"));
+        $leader_nickname = iconv($encode,"GBK",$user['nickname']);
+        $add_data = array('open_id'=>$openid,'user_img'=>$user['headimgurl'],'user_nickname'=>$leader_nickname);
+        $res = C::t("#summer_lottery#summer_user")->add_one($add_data);
+        if($res==0){
+            $redit="https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$appid."&redirect_uri=http://xjz.cqdsrb.com.cn/plugin.php?id=summer_lottery&share_id={$share_id}&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
+            header("Location:".$redit);
+            exit;
+        }
+    }
     if($openid){
-        $_SESSION['access_token']=$access_token;
         $_SESSION['openid']=$openid;
     }
     if($_SESSION['openid']){
-        $access_token=$_SESSION['access_token'];
         $openid=$_SESSION['openid'];
     }
 }else{

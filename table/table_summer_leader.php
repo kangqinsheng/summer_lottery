@@ -21,7 +21,7 @@ class table_summer_leader extends discuz_table
     }
     //查看此人在次景点是否已经建立集票
     public function is_add($w_id,$jing_id){
-        $data = DB::fetch_first("select * from %t where `wid`=%i and `jing_id`=%i",array($this->_table,$w_id,$jing_id));
+        $data = DB::fetch_first("select * from %t where `leader_wid`=%s and `jing_id`=%i",array($this->_table,$w_id,$jing_id));
         return $data;
     }
     //对应景点积赞者

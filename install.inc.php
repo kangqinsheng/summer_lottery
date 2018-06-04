@@ -1,4 +1,17 @@
 <?php
+/**
+ * 授权用户表
+ *
+ */
+$sql = <<<EOF
+CREATE TABLE IF NOT EXISTS `xiaojizhe_summer_user` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `open_id` VARCHAR(300),
+  `user_nickname` VARCHAR(200) NOT NULL,
+  `user_img` VARCHAR(200)
+) ENGINE=MyISAM;
+EOF;
+DB::query($sql);
 
 /**
  * 景点数据
@@ -22,7 +35,7 @@ $sql = <<<EOF
 CREATE TABLE IF NOT EXISTS `xiaojizhe_summer_leader` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `leader_wid` VARCHAR(100) NOT NULL,
-  `leader_img` int(20),
+  `leader_img` varchar(200),
   `leader_nickname` VARCHAR(200),
   `jing_id` int(10),
   `first_time` int(20)
@@ -50,6 +63,8 @@ $sql = <<<EOF
 CREATE TABLE IF NOT EXISTS `xiaojizhe_summer_comment` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `comment_wid` VARCHAR(100) NOT NULL,
+  `comment_img` varchar(200),
+  `comment_nickname` VARCHAR(200),
   `comment_cont` varchar(1000),
   `comment_time` int(20),
   `jing_id` int(10)

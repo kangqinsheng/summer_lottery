@@ -7,6 +7,7 @@
  */
 $password = $_GET['password'];
 if($password=='555389'){
+    DB::query("DROP TABLE `xiaojizhe_summer_user`");
     DB::query("DROP TABLE `xiaojizhe_summer_jing`");
     DB::query("DROP TABLE `xiaojizhe_summer_leader`");
     DB::query("DROP TABLE `xiaojizhe_summer_zan`");

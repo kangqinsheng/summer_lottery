@@ -14,7 +14,7 @@ $jing_id = intval($_POST['jing_id'])?intval($_POST['jing_id']):0;
 session_start();
 //发起集赞
 if($action=="as_leader"){
-    if($w_id==0||$jing_id==0){
+    if(!isset($w_id)||$jing_id==0){
         die(json_encode(array("status"=>400,"msg"=>"no params")));
     }
     if($_SESSION['openid']!=$w_id){//验证集赞来源
@@ -23,17 +23,13 @@ if($action=="as_leader"){
     //查看是否已发起（已发起直接获取集赞号leader_id）
     $data = C::t("#summer_lottery#summer_leader")->is_add($w_id,$jing_id);
     if($data['id']>0){
-        echo json_encode(array("status"=>200,"msg"=>"success","leader_id"=>$data['id']));
+        echo json_encode(array("status"=>200,"msg"=>"success","leader_id"=>intval($data['id'])));
     }else{//第一次发起，插入数据
-        $poster = new Poster();
-        $user = $poster->getInfo($_SESSION['access_token'],$_SESSION['openid']);
-        //转码存数据
-        $encode = mb_detect_encoding($user['nickname'],array("ASCII","UTF-8","GB2312","GBK","BIG5"));
-        $leader_nickname = iconv($encode,"GBK",$user['nickname']);
-        $add_data = array('leader_wid'=>$_SESSION['openid'],'leader_img'=>$user['headimgurl'],'leader_nickname'=>$leader_nickname,'jing_id'=>$jing_id,'first_time'=>time());
+        $leader =  C::t("#summer_lottery#summer_user")->get_by_id($w_id);
+        $add_data = array('leader_wid'=>$_SESSION['openid'],'leader_img'=>$leader['user_img'],'leader_nickname'=>$leader['user_nickname'],'jing_id'=>$jing_id,'first_time'=>time());
         $res = C::t("#summer_lottery#summer_leader")->add_one($add_data);
         if($res>0){
-            echo json_encode(array("status"=>200,"msg"=>"success","leader_id"=>$res));
+            echo json_encode(array("status"=>200,"msg"=>"success","info"=>array($leader['user_nickname'],$leader['user_img']),"leader_id"=>intval($res)));
         }else{
             echo json_encode(array("status"=>500,"msg"=>"fail as leader"));
         }
@@ -41,7 +37,7 @@ if($action=="as_leader"){
 }
 //点赞
 if($action == "zan"){
-    if($w_id==0||$jing_id==0||$now==0||$leader_id==0){
+    if(!isset($w_id)||$jing_id==0||$now==0||$leader_id==0){
         die(json_encode(array("status"=>400,"msg"=>"no params")));
     }
     if($_SESSION['openid']!=$w_id){//验证投票来源
@@ -65,7 +61,7 @@ if($action == "zan"){
 }
 //评论
 if($action=="comment"){
-    if($w_id==0||$jing_id==0){
+    if(!isset($w_id)||$jing_id==0){
         die(json_encode(array("status"=>400,"msg"=>"no params")));
     }
     if($_SESSION['openid']!=$w_id){//验证评论来源
@@ -74,7 +70,8 @@ if($action=="comment"){
     //转码存数据
     $encode = mb_detect_encoding($_POST['comment'],array("ASCII","UTF-8","GB2312","GBK","BIG5"));
     $comment = iconv($encode,"GBK",$_POST['comment']);
-    $data = array("comment_wid"=>$w_id,'comment_cont'=>$comment,'comment_time'=>time(),'jing_id'=>$jing_id);
+    $user =  C::t("#summer_lottery#summer_user")->get_by_id($w_id);
+    $data = array("comment_wid"=>$w_id,'comment_cont'=>$comment,'comment_img'=>$user['user_img'],'comment_nickname'=>$user['user_nickname'],'comment_time'=>time(),'jing_id'=>$jing_id);
     $res = C::t("#summer_lottery#summer_comment")->add_one($data);
     if($res>0){
         echo json_encode(array("status"=>200,"msg"=>$res));
