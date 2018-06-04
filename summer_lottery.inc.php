@@ -14,6 +14,7 @@ $secret="94022c5a73399e7c285878f5c6a2acd3";
 $url="http://xjz.cqdsrb.com.cn";
 
 $code = $_GET['code'];//获取code
+$share_id = $_GET['share_id']?$_GET['share_id']:0;//发起分享来源
 session_start();
 if($code || $_SESSION['openid']){
     $weixin=file_get_contents("https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$appid."&secret=".$secret."&code=".$code."&grant_type=authorization_code");//通过code换取网页授权access_token
@@ -34,11 +35,10 @@ if($code || $_SESSION['openid']){
         $openid=$_SESSION['openid'];
     }
 }else{
-    $redit="https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$appid."&redirect_uri=http://xjz.cqdsrb.com.cn/plugin.php?id=summer_lottery&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
+    $redit="https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$appid."&redirect_uri=http://xjz.cqdsrb.com.cn/plugin.php?id=summer_lottery&share_id={$share_id}&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
     header("Location:".$redit);
     exit;
 }
-$share_id = $_GET['share_id']?$_GET['share_id']:0;
 $page_to = $_GET['page_to']?$_GET['page_to']:'home';
 $jing_id = $_GET['jing_id']?$_GET['jing_id']:0;
 //排序方法
