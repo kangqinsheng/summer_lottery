@@ -17,7 +17,7 @@ $url="http://xjz.cqdsrb.com.cn";
 $jssdk = new JSSDK($appid, $secret);
 $signPackage = $jssdk->GetSignPackage();
 //发起分享来源
-$share_id = $_GET['share_id']?$_GET['share_id']:0;
+$share_id = $_GET['share_id']?$_GET['share_id']:$_GET['state'];
 //用户openid及基本资料
 $code = $_GET['code'];//获取code
 session_start();
@@ -33,13 +33,16 @@ if($code || $_SESSION['openid']){
         //用户数据，插入数据库
         $poster = new Poster();
         $user = $poster->getInfo($access_token,$openid);
-        //转码存数据
-        $encode = mb_detect_encoding($user['nickname'],array("ASCII","UTF-8","GB2312","GBK","BIG5"));
-        $leader_nickname = iconv($encode,"GBK",$user['nickname']);
-        $add_data = array('open_id'=>$openid,'user_img'=>$user['headimgurl'],'user_nickname'=>$leader_nickname);
-        $res = C::t("#summer_lottery#summer_user")->add_one($add_data);
-        if($res==0){
-            $redit="https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$appid."&redirect_uri=http://xjz.cqdsrb.com.cn/plugin.php?id=summer_lottery&share_id={$share_id}&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
+        //检测token是否已过期
+        if(isset($user["headimgurl"])){
+            //转码存数据
+            $encode = mb_detect_encoding($user['nickname'],array("ASCII","UTF-8","GB2312","GBK","BIG5"));
+            $leader_nickname = iconv($encode,"GBK",$user['nickname']);
+            $add_data = array('open_id'=>$openid,'user_img'=>$user['headimgurl'],'user_nickname'=>$leader_nickname);
+            $res = C::t("#summer_lottery#summer_user")->add_one($add_data);
+        }else{
+            //重新授权，或者刷新token
+            $redit="https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$appid."&redirect_uri=http://xjz.cqdsrb.com.cn/plugin.php?id=summer_lottery&response_type=code&scope=snsapi_userinfo&state={$share_id}#wechat_redirect";
             header("Location:".$redit);
             exit;
         }
@@ -51,7 +54,7 @@ if($code || $_SESSION['openid']){
         $openid=$_SESSION['openid'];
     }
 }else{
-    $redit="https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$appid."&redirect_uri=http://xjz.cqdsrb.com.cn/plugin.php?id=summer_lottery&share_id={$share_id}&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
+    $redit="https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$appid."&redirect_uri=http://xjz.cqdsrb.com.cn/plugin.php?id=summer_lottery&response_type=code&scope=snsapi_userinfo&state={$share_id}#wechat_redirect";
     header("Location:".$redit);
     exit;
 }
