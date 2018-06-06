@@ -18,6 +18,7 @@ $jssdk = new JSSDK($appid, $secret);
 $signPackage = $jssdk->GetSignPackage();
 //发起分享来源
 $share_id = $_GET['share_id']?$_GET['share_id']:$_GET['state'];
+$page_to = $_GET['page_to']?$_GET['page_to']:'home';
 //用户openid及基本资料
 $code = $_GET['code'];//获取code
 session_start();
@@ -29,7 +30,7 @@ if($code || $_SESSION['openid']){
     $access_token = $array['access_token'];
     //查看是否存入数据
     $res = C::t("#summer_lottery#summer_user")->is_has($openid);
-    if($res==0){
+    if(intval($res)==0){
         //用户数据，插入数据库
         $poster = new Poster();
         $user = $poster->getInfo($access_token,$openid);
@@ -40,11 +41,6 @@ if($code || $_SESSION['openid']){
             $leader_nickname = iconv($encode,"GBK",$user['nickname']);
             $add_data = array('open_id'=>$openid,'user_img'=>$user['headimgurl'],'user_nickname'=>$leader_nickname);
             $res = C::t("#summer_lottery#summer_user")->add_one($add_data);
-        }else{
-            //重新授权，或者刷新token
-            $redit="https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$appid."&redirect_uri=http://xjz.cqdsrb.com.cn/plugin.php?id=summer_lottery&response_type=code&scope=snsapi_userinfo&state={$share_id}#wechat_redirect";
-            header("Location:".$redit);
-            exit;
         }
     }
     if($openid){
@@ -58,7 +54,6 @@ if($code || $_SESSION['openid']){
     header("Location:".$redit);
     exit;
 }
-$page_to = $_GET['page_to']?$_GET['page_to']:'home';
 $jing_id = $_GET['jing_id']?$_GET['jing_id']:0;
 //排序方法
 function my_sort($arrays,$sort_key,$sort_order=SORT_ASC,$sort_type=SORT_NUMERIC ){

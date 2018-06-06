@@ -29,7 +29,7 @@ if($action=="as_leader"){
         $add_data = array('leader_wid'=>$_SESSION['openid'],'leader_img'=>$leader['user_img'],'leader_nickname'=>$leader['user_nickname'],'jing_id'=>$jing_id,'first_time'=>time());
         $res = C::t("#summer_lottery#summer_leader")->add_one($add_data);
         if($res>0){
-            echo json_encode(array("status"=>200,"msg"=>"success","info"=>array($leader['user_nickname'],$leader['user_img']),"leader_id"=>intval($res)));
+            echo json_encode(array("status"=>200,"msg"=>"success","leader_id"=>intval($res)));
         }else{
             echo json_encode(array("status"=>500,"msg"=>"fail as leader"));
         }
