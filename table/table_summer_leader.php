@@ -31,7 +31,7 @@ class table_summer_leader extends discuz_table
     }
     //获取个人集赞所有景点
     public function leader_jing($leader_wid){
-        $data = DB::fetch_all("select DISTINCT `jing_id`,`leader_img`,`leader_nickname`,`leader_wid` from %t where `leader_id`=%i",array($this->_table,$leader_wid));
+        $data = DB::fetch_all("select DISTINCT `jing_id`,`leader_img`,`leader_nickname`,`id` from %t where `leader_wid`=%s",array($this->_table,$leader_wid));
         return $data;
     }
 }

@@ -83,6 +83,7 @@ if($page_to=='home'){
     $list = my_sort($list,'con_zan',SORT_DESC );
     include template("summer_home","","source/plugin/summer_lottery/template");
 }elseif ($page_to=="info"){
+    $rank = intval($_GET['ranking'])+1;
     //获取景点详情
     $info = C::t("#summer_lottery#summer_jing")->get_by_id($jing_id);
     //点赞数
@@ -104,8 +105,12 @@ if($page_to=='home'){
     $mydata =  C::t("#summer_lottery#summer_leader")->leader_jing($openid);
     //点赞人集赞数
     foreach($mydata as $key=>$val){
+        //获取景点信息
+        $jing = C::t("#summer_lottery#summer_jing")->get_by_id($val['jing_id']);
+        $mydata[$key]['jing_img'] = $jing['jing_img'];
+        $mydata[$key]['jing_name'] = $jing['jing_name'];
         //获取当前赞数
-        $con_zan = C::t("#summer_lottery#summer_zan")->get_some_zan($val['jing_id'],$openid);
+        $con_zan = C::t("#summer_lottery#summer_zan")->get_some_zan($val['jing_id'],$val['id']);
         $mydata[$key]['con_zan'] = $con_zan;
     }
     $mydata = my_sort($mydata,'con_zan',SORT_DESC );
