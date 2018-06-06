@@ -37,7 +37,7 @@ if($action=="as_leader"){
 }
 //点赞
 if($action == "zan"){
-    if(!isset($w_id)||$jing_id==0||$now==0||$leader_id==0){
+    if(!isset($w_id)||$jing_id==0||$leader_id==0){
         die(json_encode(array("status"=>400,"msg"=>"no params")));
     }
     if($_SESSION['openid']!=$w_id){//验证投票来源

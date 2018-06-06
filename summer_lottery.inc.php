@@ -102,7 +102,7 @@ if($page_to=='home'){
         $leader_all[$key]['con_zan'] = $con_zan;
     }
     $leader_all = my_sort($leader_all,'con_zan',SORT_DESC );
-    include template("summery_info","","source/plugin/summer_lottery/template");
+    include template("summer_info","","source/plugin/summer_lottery/template");
 }elseif ($page_to=="my_info"){
     //获取个人集赞情况
     $mydata =  C::t("#summer_lottery#summer_leader")->leader_jing($openid);
@@ -117,7 +117,7 @@ if($page_to=='home'){
         $mydata[$key]['con_zan'] = $con_zan;
     }
     $mydata = my_sort($mydata,'con_zan',SORT_DESC );
-    include template("summery_my_info","","source/plugin/summer_lottery/template");
+    include template("summer_my_info","","source/plugin/summer_lottery/template");
 }
 
 

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>长白山植物园</title>
+		<meta charset="GBK">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="source/plugin/summer_lottery/template/style.css" />
+
+
+	</head>
+
+	<body>
+		<div class="top_inf">
+			<h5><span class="glyphicon glyphicon-heart"></span>集赞数：<font>{$con_zan}</font></h5>
+			<h5><span class="glyphicon glyphicon-signal"></span>排行：<font>{$rank}</font> </h5>
+		</div>
+
+		<div class="container contion">
+			<div>
+				{$info['jing_content']}
+			</div>
+			<div class="buttom">
+				<!--{if $share_id==0}-->
+				<button type="button" class="wanted btn btn-success jizan" data-toggle="modal" data-target="#myModal">集 赞</button>
+				<!--{else}-->
+				<button type="button" class="wanted btn btn-success jizan" data-toggle="modal" data-target="#myModal">集 赞</button>
+				<button id="dian" type="button" class="wanted btn btn-danger">点 赞</button>
+				<!--{/if}-->
+				<button type="button" class="wanted btn btn-info" data-toggle="modal" data-target="#myModa2">留 言</button>
+			</div>
+		</div>
+
+
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog good_tip">
+				<div class="modal-content">
+					<div class="modal-body">
+						<span class="glyphicon glyphicon-hand-up animation"></span>
+						<h3>点击<em>...</em>分享给好友或朋友圈</h3>
+						<p>他人为你分享也可为你集赞，<br />好友打开后点赞则集赞成功。</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="myModa2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<p>留言：</p>
+						<textarea id="comment_cont" rows="3" class="form-control"></textarea>
+					</div>
+					<div class="modal-footer">
+						<button id="close_cont" type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+						<button id="comment" type="button" class="btn btn-primary">
+					确定
+				</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="container good_list" style="margin-bottom: 0;">
+			<div class="title"><span></span>
+				<h4>集 赞 排 行</h4></div>
+			<ul class="list-group go_top">
+				<!--{loop $leader_all $one}-->
+				<li class="list-group-item">
+					<div class="head">
+						<img src="{$one['leader_img']}" />
+					</div>
+					{$one['leader_nickname']}
+					<span>已积<font>{$one['con_zan']}</font>个赞</span>
+				</li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+
+		<div class="container good_list" style="background: none;">
+			<div class="title"><span></span>
+				<h4 style="background: #f5f5f5;">留 言</h4></div>
+			<ul class="list-group message">
+				<!--{loop $commert_list $val}-->
+				<li class="list-group-item">
+					<div class="head">
+						<img src="{$val['comment_img']}" />
+					</div>
+					<b>{$val['comment_nickname']}</b>
+					<p>{$val['comment_cont']}</p>
+					<span>
+						<!--{eval echo date("m-d H:i",$val['comment_time'])}-->
+					</span>
+				</li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+		<input type="hidden" id="share_id" value="{$share_id}">
+
+		<div class="nav_bottom">
+			<a href="plugin.php?id=summer_lottery&page_to=home"><span class="glyphicon glyphicon-home"></span><font>首页</font></a>
+			<a href="plugin.php?id=summer_lottery&page_to=my_info"><span class="glyphicon glyphicon-heart"></span><font>我的集赞</font></a>
+			<a href="#"><span class="glyphicon glyphicon-comment"></span><font>活动规则</font></a>
+		</div>
+
+		<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</body>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<script>
+        $(function (){
+			$("#comment").on("click",function(){
+			    var txt = $("#comment_cont").val();
+                $.post("plugin.php?id=summer_lottery:summer_ajax",{"action":"comment","comment":txt,"open_id":"{$openid}","jing_id":$info['id']},function(res){
+                    if(res.status==200){
+                        $('#myModa2').modal('hide');
+						alert("留言成功");
+                        location.reload();
+                    }else{
+                        alert(res.msg);
+                    }
+                },"json")
+			})
+            $("#dian").on("click",function(){
+                $.post("plugin.php?id=summer_lottery:summer_ajax",{"action":"zan","open_id":"{$openid}","jing_id":$info['id'],"leader_id":$share_id},function(res){
+                    if(res.status==200){
+                        alert("点赞成功");
+                    }else{
+                        if(res.status==300){
+                            alert("已达到单日上线");
+						}else{
+                            alert("网络忙，请稍后重试");
+						}
+                    }
+                },"json")
+            })
+        })
+        wx.config({
+            debug: false,
+            appId: '{$signPackage["appId"]}',
+            timestamp: '{$signPackage["timestamp"]}',
+            nonceStr: '{$signPackage["nonceStr"]}',
+            signature: '{$signPackage["signature"]}',
+            jsApiList: [
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage'
+            ]
+        });
+        $(".jizan").on("click",function(){
+            $.post("plugin.php?id=summer_lottery:summer_ajax",{"action":"as_leader","open_id":"{$openid}","jing_id":$info['id']},function(res){
+                if(res.status==200){
+                    $("#share_id").val(res.leader_id);
+                    wx.ready(function () {
+                        var share_id = parseInt($("#share_id").val());
+                        console.log(share_id);
+                        // 在这里调用 API
+                        wx.onMenuShareTimeline({
+                            title: "我正在避暑景点集赞活动中为{$info['jing_name']}集赞,点击为我助力吧!", // 分享标题
+                            link: "http://xjz.cqdsrb.com.cn/plugin.php?id=summer_lottery"+""+"&page_to=info&share_id="+share_id+"&jing_id={$info['id']}", // 分享链接
+                            imgUrl: 'http://xjz.cqdsrb.com.cn/source/plugin/summer_lottery/template/share.jpg', // 分享图标
+                            success: function () {
+                                // 用户确认分享后执行的回调函数
+                            },
+                            cancel: function () {
+                                // 用户取消分享后执行的回调函数
+                            }
+                        });
+                        wx.onMenuShareAppMessage({
+                            title:"我正在避暑景点集赞活动中为{$info['jing_name']}集赞,点击为我助力吧!", // 分享标题
+                            desc: "我正在避暑景点集赞活动中为{$info['jing_name']}集赞,点击为我助力吧!", // 分享描述
+                            link: "http://xjz.cqdsrb.com.cn/plugin.php?id=summer_lottery"+""+"&page_to=info&share_id="+share_id+"&jing_id={$info['id']}", // 分享链接
+                            imgUrl: 'http://xjz.cqdsrb.com.cn/source/plugin/summer_lottery/template/share.jpg', // 分享图标
+                            type: '', // 分享类型,music、video或link，不填默认为link
+                            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                            success: function () {
+                                // 用户确认分享后执行的回调函数
+                            },
+                            cancel: function () {
+                                // 用户取消分享后执行的回调函数
+                            }
+                        });
+                    });
+                }else{
+                    alert(res.msg);
+                }
+            },"json")
+        })
+	</script>
+</html>

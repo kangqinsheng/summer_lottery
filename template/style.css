@@ -1,0 +1,268 @@
+*{
+	font-family: "microsoft yahei";
+	color: #666;
+	text-decoration: none;
+}
+body{
+	background: #f5f5f5;
+}
+.top_inf{
+	text-align: center;
+	overflow: hidden;
+}
+.top_inf span{
+	margin-right: 8px;
+	color: #01a7e4;
+	font-size: 16px;
+	top: 3px;
+}
+.top_inf h5{
+	display: inline-block;
+	width: 50%;
+	float: left;
+	border: #eaeaea solid 1px;
+	margin: 0;
+	line-height:42px;
+}
+.top_inf font{
+	font-weight: bold;
+	color: #ff4e00;
+}
+
+/*内容*/
+.contion{
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+.contion p{
+	line-height: 24px;
+	text-align: justify;
+}
+.contion img{
+	width: 100%;
+	margin-bottom: 13px;
+}
+/*集赞排行*/
+.good_list{
+	margin-bottom: 50px;
+}
+.good_list .title{
+	width: 100%;
+	text-align: center;
+	position: relative;
+	margin-top: 15px;
+	margin-bottom: 10px;
+}
+.good_list .title h4{
+	margin: 0 auto;
+	padding: 0px 20px;
+	font-weight: bold;
+	color: #0fab7c;
+	display: inline-block;
+	background: #eaeaea;
+	text-align: center;
+    position: relative;
+    z-index: 99;
+}
+.good_list .title span{
+	height: 1px;
+	width: 50%;
+	position: absolute;
+	background: #0fab7c;
+	top: 9px;
+	left: 25%;
+}
+.go_top .list-group-item{
+	background: #eaeaea;
+}
+.list-group-item{
+	border: 0;
+	line-height: 36px;
+	padding: 5px 15px;
+	margin: 0;
+	background: #F5F5F5;
+}
+.list-group .head{
+	width: 36px;
+	height: 36px;
+	overflow: hidden;
+	display: inline-block;
+	border-radius: 18px;
+	float: left;
+	margin-right: 10px;
+}
+.list-group img{
+	width: 100%;
+	height: 100%;
+	margin-top: -2px;
+}
+.list-group span{
+	float: right;
+	color: #999;
+}
+.list-group span font{
+	color: #ff4e00;
+	font-weight: bold;
+	margin: 0px 5px;
+}
+.list-group{
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+.good_list{
+	background: #eaeaea;
+}
+.buttom{
+	text-align: center;
+}
+.wanted{
+	display: inline-block;
+	font-size: 14px;
+	margin: 2% 4%;
+	font-weight: bold;
+	width: 20%;
+}
+/*底部导航*/
+.nav_bottom{
+	background: #FFFFFF;
+	position: fixed;
+	border-top: #bbb solid 1px;
+	z-index: 999;
+	bottom: 0;
+	height: 50px;
+	width: 100%;
+}
+.nav_bottom a{
+	width: 33%;
+	display: block;
+	float: left;
+	text-align: center;
+	color: #333;
+}
+.nav_bottom a font{
+	display: block;
+	font-size: 12px;
+	line-height: 20px;
+}
+.nav_bottom a span{
+	line-height: 30px;
+	font-size: 26px;
+	font-size: 18px;
+	color: #0fab7c;
+}
+
+/*集赞弹出*/
+.good_tip .modal-content{
+	background: no-repeat;
+	border: 0;
+	box-shadow: none;
+	color: #FFFFFF;
+}
+.good_tip .modal-body{
+	color: #FFFFFF;
+	text-align: center;
+}
+.good_tip .modal-body h3{
+	margin: 10px auto;
+}
+.good_tip .modal-body h3 em{
+	color: #FFFFFF;
+	font-size: 30px;
+	position: relative;
+    margin: 10px;
+    top: -6px;
+    font-style: normal;
+}
+.good_tip .modal-body p{
+	color: #FFFFFF;
+	font-size: 16px;
+}
+.good_tip .modal-body span{
+	color: #FFFFFF;
+	font-size: 20px;
+    width: 100%;
+    text-align: right;
+}
+
+.animation{
+-webkit-animation:bounce 1s .2s ease both infinite;
+-moz-animation:bounce 1s .2s ease both infinite;}
+@-webkit-keyframes bounce{
+0%,20%,50%,80%,100%{-webkit-transform:translateY(0)}
+40%{-webkit-transform:translateY(-20px)}
+60%{-webkit-transform:translateY(-15px)}
+}
+@-moz-keyframes bounce{
+0%,20%,50%,80%,100%{-moz-transform:translateY(0)}
+40%{-moz-transform:translateY(-20px)}
+60%{-moz-transform:translateY(-15px)}
+}
+
+/*留言*/
+.message li {
+	overflow: hidden;
+	font-weight: bold;
+	margin: 10px 0px;
+}
+.message li p,span{
+	font-weight: normal;
+}
+.message li span{
+	position: absolute;
+	top: 5px;
+	right: 0;
+}
+.message li p{
+	margin: 0px 0px 0px 46px;
+	line-height: 20px;
+	text-align: justify;
+}
+
+/*列表*/
+.jq_list{
+	margin: 2%;
+	padding-bottom: 50px;
+	overflow: hidden;
+}
+
+.jq_list a{
+	background: #FFFFFF;
+	border-radius: 5px;
+	width: 46%;
+	overflow: hidden;
+	margin: 2%;
+	float: left;
+	border: #82c5e7 solid 1px;
+}
+.jq_list a img{
+	width: 100%;
+}
+.jq_list .top_inf h5{
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 30px;
+	border: 0;
+	margin-top: 5px;
+}
+.jq_list .top_inf span{
+	font-size: 12px;
+	font-weight: normal;
+	top: 2px;
+	margin-right: 5px;
+}
+.jq_list .top_inf font{
+	font-size: 12px;
+	font-weight: normal;
+}
+.jq_list p{
+	margin: 0px 10px 10px 10px;
+	font-size: 12px;
+	line-height: 20px;
+	height: 40px;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
