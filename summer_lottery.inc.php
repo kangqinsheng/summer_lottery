@@ -18,6 +18,9 @@ $jssdk = new JSSDK($appid, $secret);
 $signPackage = $jssdk->GetSignPackage();
 //发起分享来源
 $share_id = $_GET['share_id']?$_GET['share_id']:$_GET['state'];
+if(!$share_id>0){
+    $share_id = 0;
+}
 $page_to = $_GET['page_to']?$_GET['page_to']:'home';
 //用户openid及基本资料
 $code = $_GET['code'];//获取code
