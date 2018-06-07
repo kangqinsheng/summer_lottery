@@ -24,6 +24,11 @@ class table_summer_jing extends discuz_table
         $data = DB::fetch_all("select `id`,`jing_name`,`jing_img`,`jing_status`,`jing_ext_zan` from %t",array($this->_table));
         return $data;
     }
+    //获取所有数据列表在线景点
+    public function get_list_on(){
+        $data = DB::fetch_all("select `id`,`jing_name`,`jing_img`,`jing_status`,`jing_ext_zan` from %t WHERE `jing_status`=0",array($this->_table));
+        return $data;
+    }
     //通过id获取详细信息
     public function get_by_id($id){
         $data = DB::fetch_first("select * from %t where `id`=%i",array($this->_table,$id));

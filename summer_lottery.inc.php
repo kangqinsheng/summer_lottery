@@ -80,7 +80,7 @@ function my_sort($arrays,$sort_key,$sort_order=SORT_ASC,$sort_type=SORT_NUMERIC 
 
 if($page_to=='home'){
     //获取首页列表数据
-    $list = C::t("#summer_lottery#summer_jing")->get_list();
+    $list = C::t("#summer_lottery#summer_jing")->get_list_on();
     foreach($list as $key=>$val){
         //获取当前赞数
         $con_zan = C::t("#summer_lottery#summer_zan")->get_zan_count($val['id']);
@@ -94,7 +94,7 @@ if($page_to=='home'){
         $rank = intval($_GET['ranking'])+1;
     }else{
         //获取首页列表数据
-        $list = C::t("#summer_lottery#summer_jing")->get_list();
+        $list = C::t("#summer_lottery#summer_jing")->get_list_on();
         foreach($list as $key=>$val){
             //获取当前赞数
             $con_zan = C::t("#summer_lottery#summer_zan")->get_zan_count($val['id']);
