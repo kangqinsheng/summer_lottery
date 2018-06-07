@@ -148,18 +148,41 @@
 <div id="btns">
     <button class="btn" onclick="getContent()" >确认修改</button>
 </div>
-<h3>评论管理</h3>
-<table width="100%">
+<h3>集赞列表</h3>
+<table cellpadding="0" cellspacing="0" border="1" width="100%">
     <tr>
+        <td>头像</td>
+        <td>昵称</td>
+        <td>微信号</td>
+        <td>集赞数量</td>
+    </tr>
+    <!--{loop $leader_all $val}-->
+    <tr>
+        <td><img src="{$val['leader_img']}" width="50px" height="50px"></td>
+        <td>{$val['leader_nickname']}</td>
+        <td>{$val['leader_wid']}</td>
+        <td>
+            {$val['con_zan']}
+        </td>
+    </tr>
+    <!--{/loop}-->
+</table>
+
+
+<h3>评论管理</h3>
+<table cellpadding="0" cellspacing="0" border="1" width="100%">
+    <tr>
+        <td>昵称</td>
         <td>评论内容</td>
         <td>评论时间</td>
         <td>操作</td>
     </tr>
     <!--{loop $list $val}-->
     <tr>
+        <td>{$val['comment_nickname']}</td>
         <td>{$val['comment_cont']}</td>
         <td>
-            <!--eval echo date('Y-m-d H:i:s',{$val['comment_time']})-->
+            <!--{eval echo date('m-d H:i:s',$val['comment_time'])}-->
         </td>
         <td>
             <a onclick="del($val['id'])" href="javascript:void(0);">删除</a>

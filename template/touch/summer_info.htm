@@ -2,7 +2,7 @@
 <html>
 
 	<head>
-		<title>长白山植物园</title>
+		<title>{$info['jing_name']}</title>
 		<meta charset="GBK">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
@@ -63,6 +63,22 @@
 			</div>
 		</div>
 
+		<div class="modal fade" id="myModa3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<p>温馨提示：</p>
+						<b id="alert"></b>
+					</div>
+					<div class="modal-footer">
+						<button  type="button" class="btn btn-primary" data-dismiss="modal">
+							确定
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
 
 		<div class="container good_list" style="margin-bottom: 0;">
 			<div class="title"><span></span>
@@ -112,13 +128,16 @@
 	<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 	<script>
         $(function (){
+            $('#myModa3').on('hidden.bs.modal', function (e) {
+                window.location.reload();
+            })
 			$("#comment").on("click",function(){
 			    var txt = $("#comment_cont").val();
                 $.post("plugin.php?id=summer_lottery:summer_ajax",{"action":"comment","comment":txt,"open_id":"{$openid}","jing_id":$info['id']},function(res){
                     if(res.status==200){
                         $('#myModa2').modal('hide');
-						alert("留言成功");
-                        location.reload();
+                        $("#alert").text("留言成功");
+                        $("#myModa3").modal('show');
                     }else{
                         alert(res.msg);
                     }
@@ -127,12 +146,15 @@
             $("#dian").on("click",function(){
                 $.post("plugin.php?id=summer_lottery:summer_ajax",{"action":"zan","open_id":"{$openid}","jing_id":$info['id'],"leader_id":$share_id},function(res){
                     if(res.status==200){
-                        alert("点赞成功");
+                        $("#alert").text("点赞成功");
+                        $("#myModa3").modal('show');
                     }else{
                         if(res.status==300){
-                            alert("已达到单日上线");
+                            $("#alert").text("已达到单日上限");
+                            $("#myModa3").modal('show');
 						}else{
-                            alert("网络忙，请稍后重试");
+                            $("#alert").text("网络忙，请稍后重试");
+                            $("#myModa3").modal('show');
 						}
                     }
                 },"json")
@@ -155,7 +177,6 @@
                     $("#share_id").val(res.leader_id);
                     wx.ready(function () {
                         var share_id = parseInt($("#share_id").val());
-                        console.log(share_id);
                         // 在这里调用 API
                         wx.onMenuShareTimeline({
                             title: "我正在避暑景点集赞活动中为{$info['jing_name']}集赞,点击为我助力吧!", // 分享标题
@@ -184,7 +205,8 @@
                         });
                     });
                 }else{
-                    alert(res.msg);
+                    $("#alert").text(res.msg);
+                    $("#myModa3").modal('show');
                 }
             },"json")
         })

@@ -36,6 +36,17 @@ if($action=="index"){
     $jing_id = $_GET['jing_id'];
     //获取参赛景点数据
     $jing = C::t("#summer_lottery#summer_jing")->get_by_id($jing_id);
+    //获取集赞人信息
+    $leader_all = C::t("#summer_lottery#summer_leader")->leader_all($jing_id);
+    //点赞人集赞数
+    foreach($leader_all as $key=>$val){
+        //获取当前赞数
+        $con_z = C::t("#summer_lottery#summer_zan")->get_some_zan($jing_id,$val['id']);
+        $leader_all[$key]['con_zan'] = $con_z;
+    }
+    $leader_all = my_sort($leader_all,'con_zan',SORT_DESC );
+    //获取评论列表
+    $list = C::t("#summer_lottery#summer_comment")->get_list($jing_id);
     include template("summer_update","","source/plugin/summer_lottery/template");
 }elseif($action=="add_jing"){
     $jing_img = $_POST['jing_img'][0]?$_POST['jing_img'][0]:"";

@@ -53,7 +53,10 @@ if($code || $_SESSION['openid']){
         $openid=$_SESSION['openid'];
     }
 }else{
-    $redit="https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$appid."&redirect_uri=http://xjz.cqdsrb.com.cn/plugin.php?id=summer_lottery&response_type=code&scope=snsapi_userinfo&state={$share_id}#wechat_redirect";
+    //获取需要跳转的页面地址，防止授权跳转到首页
+    $reurl = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
+    $reurl = urlencode($reurl);
+    $redit="https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$appid."&redirect_uri=".$reurl."&response_type=code&scope=snsapi_userinfo&state={$share_id}#wechat_redirect";
     header("Location:".$redit);
     exit;
 }
@@ -86,7 +89,24 @@ if($page_to=='home'){
     $list = my_sort($list,'con_zan',SORT_DESC );
     include template("summer_home","","source/plugin/summer_lottery/template");
 }elseif ($page_to=="info"){
-    $rank = intval($_GET['ranking'])+1;
+    //获取排行信息
+    if(isset($_GET['ranking'])){
+        $rank = intval($_GET['ranking'])+1;
+    }else{
+        //获取首页列表数据
+        $list = C::t("#summer_lottery#summer_jing")->get_list();
+        foreach($list as $key=>$val){
+            //获取当前赞数
+            $con_zan = C::t("#summer_lottery#summer_zan")->get_zan_count($val['id']);
+            $list[$key]['con_zan'] = $con_zan+$val['jing_ext_zan'];
+        }
+        $list = my_sort($list,'con_zan',SORT_DESC );
+        foreach($list as $key=>$val){
+            if($jing_id==$val['id']){
+                $rank = $key+1;
+            }
+        }
+    }
     //获取景点详情
     $info = C::t("#summer_lottery#summer_jing")->get_by_id($jing_id);
     //点赞数
@@ -98,8 +118,8 @@ if($page_to=='home'){
     //点赞人集赞数
     foreach($leader_all as $key=>$val){
         //获取当前赞数
-        $con_zan = C::t("#summer_lottery#summer_zan")->get_some_zan($jing_id,$val['id']);
-        $leader_all[$key]['con_zan'] = $con_zan;
+        $con_z = C::t("#summer_lottery#summer_zan")->get_some_zan($jing_id,$val['id']);
+        $leader_all[$key]['con_zan'] = $con_z;
     }
     $leader_all = my_sort($leader_all,'con_zan',SORT_DESC );
     include template("summer_info","","source/plugin/summer_lottery/template");
