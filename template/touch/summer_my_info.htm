@@ -21,15 +21,15 @@
 		<div class="container good_list">
 			<ul class="list-group">
 				<!--{loop $mydata $val}-->
+				<a href="plugin.php?id=summer_lottery&page_to=info&jing_id={$val['jing_id']}">
 				<li class="list-group-item">
-					<a href="plugin.php?id=summer_lottery&page_to=info&jing_id={$val['id']}">
 					<div class="head">
 						<img src="source/plugin/summer_lottery/uploads/{$val['jing_img']}.jpg" />
 					</div>
 					{$val['jing_name']}
 					<span>ÒÑ»ý<font>{$val['con_zan']}</font>¸öÔÞ</span>
-					</a>
 				</li>
+				</a>
 				<!--{/loop}-->
 			</ul>
 		</div>
