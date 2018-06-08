@@ -42,6 +42,9 @@ if($code || $_SESSION['openid']){
             //转码存数据
             $encode = mb_detect_encoding($user['nickname'],array("ASCII","UTF-8","GB2312","GBK","BIG5"));
             $leader_nickname = iconv($encode,"GBK",$user['nickname']);
+            if(!$leader_nickname){
+                $leader_nickname = "匿名用户";
+            }
             $add_data = array('open_id'=>$openid,'user_img'=>$user['headimgurl'],'user_nickname'=>$leader_nickname);
             $res = C::t("#summer_lottery#summer_user")->add_one($add_data);
         }
