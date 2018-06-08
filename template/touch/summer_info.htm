@@ -23,10 +23,10 @@
 			</div>
 			<div class="buttom">
 				<!--{if $share_id==0}-->
-				<button type="button" class="wanted btn btn-success jizan" data-toggle="modal" data-target="#myModal">集 赞</button>
+				<button type="button" class="wanted btn btn-success jizan" data-toggle="modal" data-target="#myModal">发起集票</button>
 				<!--{else}-->
-				<button type="button" class="wanted btn btn-success jizan" data-toggle="modal" data-target="#myModal">集 赞</button>
-				<button id="dian" type="button" class="wanted btn btn-danger">点 赞</button>
+				<button type="button" class="wanted btn btn-success jizan" data-toggle="modal" data-target="#myModal">发起集票</button>
+				<button id="dian" type="button" class="wanted btn btn-danger">投 票</button>
 				<!--{/if}-->
 				<button type="button" class="wanted btn btn-info" data-toggle="modal" data-target="#myModa2">留 言</button>
 			</div>
@@ -39,7 +39,7 @@
 					<div class="modal-body">
 						<span class="glyphicon glyphicon-hand-up animation"></span>
 						<h3>点击<em>...</em>分享给好友或朋友圈</h3>
-						<p>他人为你分享也可为你集赞，<br />好友打开后点赞则集赞成功。</p>
+						<p>他人为你分享也可为你集票，<br />好友打开后投票则集票成功。</p>
 					</div>
 				</div>
 			</div>
@@ -180,7 +180,7 @@
                         var share_id = parseInt($("#share_id").val());
                         // 在这里调用 API
                         wx.onMenuShareTimeline({
-                            title: "我正在避暑景点集赞活动中为{$info['jing_name']}集赞,点击为我助力吧!", // 分享标题
+                            title: "我正在“消夏旅游”新网红活动中为{$info['jing_name']}避暑地集票，点击为我助力吧！", // 分享标题
                             link: "http://xjz.cqdsrb.com.cn/plugin.php?id=summer_lottery"+""+"&page_to=info&share_id="+share_id+"&jing_id={$info['id']}", // 分享链接
                             imgUrl: 'http://xjz.cqdsrb.com.cn/source/plugin/summer_lottery/template/share.jpg', // 分享图标
                             success: function () {
@@ -191,8 +191,8 @@
                             }
                         });
                         wx.onMenuShareAppMessage({
-                            title:"我正在避暑景点集赞活动中为{$info['jing_name']}集赞,点击为我助力吧!", // 分享标题
-                            desc: "我正在避暑景点集赞活动中为{$info['jing_name']}集赞,点击为我助力吧!", // 分享描述
+                            title:"我正在“消夏旅游”新网红活动中为{$info['jing_name']}避暑地集票，点击为我助力吧！", // 分享标题
+                            desc: "千万轨道网友推选重庆人第一避暑地，参与集票赢万元大奖！", // 分享描述
                             link: "http://xjz.cqdsrb.com.cn/plugin.php?id=summer_lottery"+""+"&page_to=info&share_id="+share_id+"&jing_id={$info['id']}", // 分享链接
                             imgUrl: 'http://xjz.cqdsrb.com.cn/source/plugin/summer_lottery/template/share.jpg', // 分享图标
                             type: '', // 分享类型,music、video或link，不填默认为link
